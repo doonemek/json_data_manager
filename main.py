@@ -3,6 +3,38 @@ import pathlib
 
 from lib.config_loader import load_config
 
+def load_and_sort_data(file_path: pathlib.Path, sort_keys: list):
+    """JSONファイルを読み込み、設定キーに基づいて自然順ソートを行う。
+
+    辞書形式のリストを読み込み、指定されたソートキーに従って並び替える。
+    数値文字列も数値として扱われるため、ID等の比較に最適化されている。
+
+    Args:
+        file_path (pathlib.Path): 読み込むJSONファイルのパス。
+        sort_keys (list): ソートの優先順位となるキーのリスト。
+
+    Returns:
+        list: ソート済みの辞書リスト。
+
+    Raises:
+        ValueError: 読み込んだJSONデータがリスト形式でない場合に発生。
+    """
+    with open(file_path, 'r', encoding='utf-8') as f:
+        data = json.load(f)
+        
+    if not isinstance(data, list):
+        raise ValueError(f"リスト形式ではありません: {file_path}")
+
+    # ソート処理
+    return sorted(
+        data,
+        key=lambda item: [
+            int(v) if isinstance(v, (int, float)) or (isinstance(v, str) and v.isdigit()) 
+            else natural_sort_key(str(v or "")) 
+            for v in (item.get(k) for k in sort_keys)
+        ]
+    )
+
 def inspect_json_files(target_dir: str):
     """指定ディレクトリ内の全JSONファイルを読み込み、ソート結果を表示する。
 
