@@ -15,6 +15,11 @@ def setup_logger(log_dir: str = "logs"):
 
     # ルートロガーの取得
     logger = logging.getLogger()
+
+    # 【重要】既にハンドラがある場合は処理を中断する（ガード節）
+    if logger.hasHandlers():
+        return
+    
     logger.setLevel(logging.DEBUG)  # すべてのログを対象にする
 
     # 共通フォーマット
