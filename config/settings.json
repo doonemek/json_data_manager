@@ -1,4 +1,5 @@
 {
-  "target_keys": ["idNum", "title", "pageCount", "user", "userId", "ext", "date"],
+  "target_keys": ["idNum", "id", "user", "userId", "ext", "date"],
+  "sort_keys": ["idNum", "id"],
   "display_limit": 5
 }
