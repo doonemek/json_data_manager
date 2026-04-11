@@ -1,3 +1,8 @@
 {
-  "sort_keys": ["idNum", "id"]
+  "input_json_file_dir": "./data",
+  "output_json_file_dir": "./output",
+  "analysis_keys": ["idNum", "id"],
+  "dedup_key": "id",
+  "sort_keys": ["idNum", "id"],
+  "output_file_prefix": "result-total.json"
 }
