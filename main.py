@@ -75,7 +75,7 @@ def inspect_json_files(target_dir: str):
     json_files = list(path.glob("*.json"))
 
     if not json_files:
-        print(f"JSONファイルが見つかりません: {target_dir}")
+        logging.warning(f"JSONファイルが見つかりません: {target_dir}")
         return
 
     for file_path in json_files:
@@ -90,9 +90,9 @@ def inspect_json_files(target_dir: str):
             print(f"... (全 {len(sorted_data)} 件中)")
             
         except json.JSONDecodeError:
-            print(f"JSONの形式が正しくありません: {file_path.name}")
+            logging.error(f"JSON形式不正: {file_path.name}")
         except Exception as e:
-            print(f"予期せぬエラーが発生しました ({file_path.name}): {e}")
+            logging.exception(f"予期せぬエラー ({file_path.name}): {e}")
 
 if __name__ == "__main__":
     inspect_json_files("./data")
