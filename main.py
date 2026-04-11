@@ -1,8 +1,12 @@
+import logging
 import json
 import pathlib
 import re
 
 from lib.config_loader import load_config
+from lib.logger import setup_logger
+
+setup_logger()
 
 def natural_sort_key(s):
     """文字列内の数字を数値として扱うためのソートキーを生成する。
