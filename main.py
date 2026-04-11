@@ -67,9 +67,7 @@ def inspect_json_files(target_dir: str):
         target_dir (str): JSONファイルが格納されているディレクトリのパス。
     """
     config = load_config()
-    target_keys = config.get("target_keys", [])
     sort_keys = config.get("sort_keys", [])
-    display_limit = config.get("display_limit", 5)
 
     path = pathlib.Path(target_dir)
     json_files = list(path.glob("*.json"))
@@ -79,15 +77,13 @@ def inspect_json_files(target_dir: str):
         return
 
     for file_path in json_files:
-        print(f"\n--- File: {file_path.name} ---")
         try:
             # ここでデータ処理を分離
             sorted_data = load_and_sort_data(file_path, sort_keys)
-            
-            # 表示処理
-            for item in sorted_data[:display_limit]:
-                print({k: item.get(k, "N/A") for k in target_keys})
-            print(f"... (全 {len(sorted_data)} 件中)")
+
+            # 処理完了ファイル名 + 件数
+            count = len(sorted_data)
+            logging.info(f"完了: {file_path.name} (処理件数: {count})")
             
         except json.JSONDecodeError:
             logging.error(f"JSON形式不正: {file_path.name}")

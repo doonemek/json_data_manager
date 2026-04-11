@@ -1,5 +1,3 @@
 {
-  "target_keys": ["idNum", "id", "user", "userId", "ext", "date"],
-  "sort_keys": ["idNum", "id"],
-  "display_limit": 5
+  "sort_keys": ["idNum", "id"]
 }
