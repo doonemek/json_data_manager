@@ -1,5 +1,6 @@
 import logging
 import sys
+from datetime import datetime
 from pathlib import Path
 
 def setup_logger(log_dir: str = "logs"):
@@ -20,13 +21,17 @@ def setup_logger(log_dir: str = "logs"):
     if logger.hasHandlers():
         return
     
+    # タイムスタンプの生成
+    timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
+    log_filename = log_path / f"process-{timestamp}.log"
+    
     logger.setLevel(logging.DEBUG)  # すべてのログを対象にする
 
     # 共通フォーマット
     formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
 
     # ファイルハンドラ（詳細記録用：DEBUG以上）
-    file_handler = logging.FileHandler(log_path / "app.log", encoding="utf-8")
+    file_handler = logging.FileHandler(log_filename, encoding="utf-8")
     file_handler.setLevel(logging.DEBUG)
     file_handler.setFormatter(formatter)
     logger.addHandler(file_handler)
