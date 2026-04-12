@@ -80,6 +80,30 @@ def collect_unique_data(dedup_key: str, input_path: str) -> list:
     logging.info(f"データ収集完了: {len(deduplicated_data)} 件のユニークなアイテムを抽出しました")
     return deduplicated_data
 
+def filter_new_data(new_data: list[dict], master_list: list[dict], dedup_key: str) -> list[dict]:
+    """master データに含まれない新規データを抽出する
+    判定は dedup_keys で登録された key で行う
+
+    Args:
+        new_data (list[dict]): 新規データから重複排除したリスト
+        master_list (list[dict]): master データ
+        dedup_key (str): 重複排除の条件キー
+
+    Returns:
+        list[dict]: master データに存在しない新規データリスト
+    """
+    # master データをセット
+    master_ids = {item[dedup_key] for item in master_list if dedup_key in item}
+    
+    # 新規データのフィルタリング
+    unique_to_master = [
+        item for item in new_data 
+        if item.get(dedup_key) not in master_ids
+    ]
+    
+    logging.info(f"重複排除完了: {len(new_data)} 件中 {len(unique_to_master)} 件が新規データです")
+    return unique_to_master
+
 def analyze_counts(deduplicated_data: list[dict], analysis_keys: list[str]) -> dict:
     """抽出されたリストから各キーのユニークな件数をカウントする
 
