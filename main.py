@@ -17,10 +17,12 @@ def main():
 
     keys = config.get("analysis_keys") or [config.get("dedup_key", "id")]
     analysis_results = analyze_counts(deduplicated_data, keys)
-    save_json_data(deduplicated_data, analysis_results, config)
 
     # 統合データのソート
-    # sorted_data = load_and_sort_data(file_path, sort_keys)
+    sorted_data = load_and_sort_data(deduplicated_data, config.get("sort_keys", ["id"]))
+
+    # 対象データを保存
+    save_json_data(sorted_data, analysis_results, config)
 
     # 解析
     # inspect_json_files("./data")
