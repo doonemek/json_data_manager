@@ -1,0 +1,3 @@
+
+def splitter():
+    pass
