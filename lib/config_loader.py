@@ -2,7 +2,7 @@ from pathlib import Path
 
 from lib.json_hundler import load_json
 
-def load_config(config_path: str = "config/settings.json"):
+def load_config(config_path: str = "config/settings.json") -> list:
     """Config内容を読み出す
 
     Args:

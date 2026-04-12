@@ -3,13 +3,13 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
-def setup_logger(log_dir: str = "logs"):
+def setup_logger(log_dir: str = "./data/logs") -> None:
     """ログの設定：ファイルとコンソールへ同時に出力する
 
     DEGUB以上でログ・コンソール出力、INFO以上でコンソールのみ出力
 
     Args:
-        log_dir (str, optional): ログファイルを吐き出すディレクトリ. Defaults to "logs".
+        log_dir (str, optional): ログファイルを吐き出すディレクトリ. Defaults to "./data/logs".
     """
     log_path = Path(log_dir)
     log_path.mkdir(exist_ok=True)
