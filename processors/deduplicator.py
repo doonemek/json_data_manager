@@ -179,34 +179,3 @@ def generate_filename(analysis_results: dict, analysis_keys: list[str], output_f
         final_filename = f"{change_str}_{output_file_prefix}"
     
     return final_filename
-
-def save_json_data(deduplicated_data: list, analysis_results: dict, config: dict) -> str:
-    """集計結果に基づいてファイル名を生成し、JSONを保存する
-
-    集計結果はファイル名に記載される
-
-    Args:
-        deduplicated_data (list): 重複排除したリスト
-        analysis_results (dict): 各キーとカウント値
-        config (dict): 以下のキーが必要です:
-            - analysis_keys (list): ファイル名の構成順序に使用
-            - output_file_prefix (str): ファイル名の末尾
-            - output_json_file_dir (str): 保存先ディレクトリ
-
-    Returns:
-        str: 作成されたファイル名
-    """
-    analysis_keys = config.get("analysis_keys", [])
-    prefix = config.get("output_file_prefix", "result-total.json")
-    
-    filename_parts = [f"{k}-{analysis_results[k]}" for k in analysis_keys]
-    final_filename = "_".join(filename_parts) + "_" + prefix
-    
-    output_path = Path(config.get("output_json_file_dir", "./output"))
-    output_path.mkdir(exist_ok=True)
-    output_file = output_path / final_filename
-    
-    save_json(deduplicated_data, output_file)
-        
-    logging.debug(f"保存完了: {final_filename} に {len(deduplicated_data)} 件を保存しました")
-    return final_filename
