@@ -1,0 +1,7 @@
+[
+  {"id": 201, "class": "Team-Alpha", "name": "Ito", "age": 19, "sex": "male", "height": 170, "weight": 60},
+  {"id": 202, "class": "Team-Alpha", "name": "Kobayashi", "age": 20, "sex": "female", "height": 165, "weight": 55},
+  {"id": 203, "class": "Team-Beta", "name": "Nakamura", "age": 21, "sex": "male", "height": 178, "weight": 72},
+  {"id": 204, "class": "Team-Beta", "name": "Yamamoto", "age": 20, "sex": "female", "height": 158, "weight": 52},
+  {"id": 205, "class": "Team-Gamma", "name": "Kato", "age": 22, "sex": "male", "height": 185, "weight": 90}
+]

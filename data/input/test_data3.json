@@ -1,0 +1,7 @@
+[
+  {"id": 301, "class": "Pro", "name": "Yoshida", "age": 24, "sex": "male", "height": 182, "weight": 78},
+  {"id": 302, "class": "Pro", "name": "Yamada", "age": 26, "sex": "female", "height": 168, "weight": 58},
+  {"id": 303, "class": "Semi-Pro", "name": "Sasaki", "age": 23, "sex": "male", "height": 174, "weight": 68},
+  {"id": 304, "class": "Semi-Pro", "name": "Yamaguchi", "age": 25, "sex": "female", "height": 162, "weight": 54},
+  {"id": 305, "class": "Amateur", "name": "Matsumoto", "age": 27, "sex": "male", "height": 176, "weight": 75}
+]

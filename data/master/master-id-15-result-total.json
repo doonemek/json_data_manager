@@ -1,0 +1,137 @@
+[
+    {
+        "id": 101,
+        "class": "A",
+        "name": "Tanaka",
+        "age": 25,
+        "sex": "male",
+        "height": 175,
+        "weight": 70
+    },
+    {
+        "id": 102,
+        "class": "A",
+        "name": "Sato",
+        "age": 22,
+        "sex": "female",
+        "height": 160,
+        "weight": 50
+    },
+    {
+        "id": 103,
+        "class": "B",
+        "name": "Suzuki",
+        "age": 30,
+        "sex": "male",
+        "height": 180,
+        "weight": 85
+    },
+    {
+        "id": 104,
+        "class": "B",
+        "name": "Takahashi",
+        "age": 28,
+        "sex": "female",
+        "height": 155,
+        "weight": 48
+    },
+    {
+        "id": 105,
+        "class": "C",
+        "name": "Watanabe",
+        "age": 35,
+        "sex": "male",
+        "height": 172,
+        "weight": 65
+    },
+    {
+        "id": 201,
+        "class": "Team-Alpha",
+        "name": "Ito",
+        "age": 19,
+        "sex": "male",
+        "height": 170,
+        "weight": 60
+    },
+    {
+        "id": 202,
+        "class": "Team-Alpha",
+        "name": "Kobayashi",
+        "age": 20,
+        "sex": "female",
+        "height": 165,
+        "weight": 55
+    },
+    {
+        "id": 203,
+        "class": "Team-Beta",
+        "name": "Nakamura",
+        "age": 21,
+        "sex": "male",
+        "height": 178,
+        "weight": 72
+    },
+    {
+        "id": 204,
+        "class": "Team-Beta",
+        "name": "Yamamoto",
+        "age": 20,
+        "sex": "female",
+        "height": 158,
+        "weight": 52
+    },
+    {
+        "id": 205,
+        "class": "Team-Gamma",
+        "name": "Kato",
+        "age": 22,
+        "sex": "male",
+        "height": 185,
+        "weight": 90
+    },
+    {
+        "id": 301,
+        "class": "Pro",
+        "name": "Yoshida",
+        "age": 24,
+        "sex": "male",
+        "height": 182,
+        "weight": 78
+    },
+    {
+        "id": 302,
+        "class": "Pro",
+        "name": "Yamada",
+        "age": 26,
+        "sex": "female",
+        "height": 168,
+        "weight": 58
+    },
+    {
+        "id": 303,
+        "class": "Semi-Pro",
+        "name": "Sasaki",
+        "age": 23,
+        "sex": "male",
+        "height": 174,
+        "weight": 68
+    },
+    {
+        "id": 304,
+        "class": "Semi-Pro",
+        "name": "Yamaguchi",
+        "age": 25,
+        "sex": "female",
+        "height": 162,
+        "weight": 54
+    },
+    {
+        "id": 305,
+        "class": "Amateur",
+        "name": "Matsumoto",
+        "age": 27,
+        "sex": "male",
+        "height": 176,
+        "weight": 75
+    }
+]

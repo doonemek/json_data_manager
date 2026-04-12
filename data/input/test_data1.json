@@ -1,0 +1,7 @@
+[
+  {"id": 101, "class": "A", "name": "Tanaka", "age": 25, "sex": "male", "height": 175, "weight": 70},
+  {"id": 102, "class": "A", "name": "Sato", "age": 22, "sex": "female", "height": 160, "weight": 50},
+  {"id": 103, "class": "B", "name": "Suzuki", "age": 30, "sex": "male", "height": 180, "weight": 85},
+  {"id": 104, "class": "B", "name": "Takahashi", "age": 28, "sex": "female", "height": 155, "weight": 48},
+  {"id": 105, "class": "C", "name": "Watanabe", "age": 35, "sex": "male", "height": 172, "weight": 65}
+]
