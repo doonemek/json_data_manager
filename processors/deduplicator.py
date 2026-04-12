@@ -2,7 +2,46 @@ import logging
 import re
 from pathlib import Path
 
-from lib.json_hundler import load_json, save_json
+from lib.json_hundler import load_json
+
+def load_master_data(master_dir: str = "./data/master") -> list[dict]:
+    """./data/master 内の全JSONファイルを読み込み、リスト化して返す
+
+    Args:
+        master_dir (str, optional): master データ保存場所. Defaults to "./data/master".
+
+    Returns:
+        list[dict]: master データのリスト (存在しない場合は空のリストを返す)
+    """
+    master_path = Path(master_dir)
+    master_list = []
+
+    if not master_path.exists():
+        logging.info(f"data 配下に master が存在しないため、作成します: {master_dir}.")
+        master_path.mkdir(exist_ok=True)
+        return master_list
+
+    # JSONファイルのみを対象にループ
+    json_files = list(Path(master_path).glob("*.json"))
+    logging.info(f"master データ収集開始: {len(json_files)} 件のファイルをスキャンします")
+    for file_path in json_files:
+        logging.debug(f"読み取り開始: {file_path.name}")
+
+        data = load_json(file_path)
+        if data is None:
+            logging.warning(f"データがありません: {file_path}")
+            continue
+        
+        # 読み込んだデータがリスト形式でないなら Skip
+        if not isinstance(data, list):
+            logging.debug(f"リスト形式ではありません: {file_path.name}")
+            continue
+
+        # master データ追加
+        master_list.extend(data)
+            
+    logging.info(f"master データ読み込み完了: {len(master_list)} 件のアイテムを抽出しました")
+    return master_list
 
 def collect_unique_data(dedup_key: str, input_path: str) -> list:
     """指定ディレクトリ内の全JSONを読み込み、指定キーで重複排除したリストを返す
