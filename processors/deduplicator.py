@@ -24,6 +24,7 @@ def collect_unique_data(dedup_key: str, input_path: str):
             # JSON ファイルを読み込み、リスト形式でなければ Skip する
             data = load_json(file_path)
             if not isinstance(data, list):
+                logging.debug(f"リスト形式ではありません: {file_path}")
                 continue
 
             for item in data:
