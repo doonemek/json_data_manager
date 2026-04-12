@@ -21,11 +21,12 @@ def collect_unique_data(dedup_key: str, input_path: str) -> list:
     logging.info(f"データ収集開始: {len(json_files)} 件のファイルをスキャンします")
 
     for file_path in json_files:
+        logging.debug(f"読み取り開始: {file_path.name}")
         try:
             # JSON ファイルを読み込み、リスト形式でなければ Skip する
             data = load_json(file_path)
             if not isinstance(data, list):
-                logging.debug(f"リスト形式ではありません: {file_path}")
+                logging.debug(f"リスト形式ではありません: {file_path.name}")
                 continue
 
             for item in data:
@@ -124,5 +125,5 @@ def save_json_data(deduplicated_data: list, analysis_results: dict, config: dict
     
     save_json(deduplicated_data, output_file)
         
-    logging.info(f"保存完了: {final_filename} に {len(deduplicated_data)} 件を保存しました")
+    logging.debug(f"保存完了: {final_filename} に {len(deduplicated_data)} 件を保存しました")
     return final_filename
