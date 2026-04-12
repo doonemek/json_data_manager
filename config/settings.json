@@ -1,9 +1,20 @@
 {
-  "input_json_file_dir": "./data/input",
-  "master_json_file_dir": "./data/master",
-  "output_json_file_dir": "./data/output",
-  "output_unique_file_prefix": "XXXXX_result-total.json",
-  "output_master_file_prefix": "master-XXXXX-result-total.json",
-  "analysis_keys": ["id"],
-  "dedup_key": "id"
+  "common": {
+    "data_root": "./data",
+    "input_json_file_dir": "${common.data_root}/input",
+    "master_json_file_dir": "${common.data_root}/master",
+    "output_json_file_dir": "${common.data_root}/output"
+  },
+  "deduplicator": {
+    "output_unique_file_prefix": "XXXXX_result-total.json",
+    "output_master_file_prefix": "master-XXXXX-result-total.json",
+    "analysis_keys": ["id"],
+    "dedup_key": "id"
+  },
+  "splitter": {
+
+  },
+  "inspector": {
+
+  }
 }
