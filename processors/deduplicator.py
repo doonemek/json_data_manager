@@ -47,8 +47,8 @@ def collect_unique_data(dedup_key: str, input_path: str) -> list:
     """指定ディレクトリ内の全JSONを読み込み、指定キーで重複排除したリストを返す
 
     Args:
-        dedup_key (str): _description
-        input_path (str): _description_
+        dedup_key (str): 重複排除するためのキー
+        input_path (str): 入力データパス
 
     Returns:
         list: 重複排除したリスト
@@ -57,7 +57,7 @@ def collect_unique_data(dedup_key: str, input_path: str) -> list:
     seen_keys = set()
     
     json_files = list(Path(input_path).glob("*.json"))
-    logging.info(f"データ収集開始: {len(json_files)} 件のファイルをスキャンします")
+    logging.info(f"新規データ収集開始: {len(json_files)} 件のファイルをスキャンします")
 
     for file_path in json_files:
         logging.debug(f"読み取り開始: {file_path.name}")
@@ -77,7 +77,7 @@ def collect_unique_data(dedup_key: str, input_path: str) -> list:
         except Exception as e:
             logging.error(f"読み込みエラー ({file_path.name}): {e}")
 
-    logging.info(f"データ収集完了: {len(deduplicated_data)} 件のユニークなアイテムを抽出しました")
+    logging.info(f"新規データ収集完了: {len(deduplicated_data)} 件のユニークなアイテムを抽出しました")
     return deduplicated_data
 
 def filter_new_data(new_data: list[dict], master_list: list[dict], dedup_key: str) -> list[dict]:
