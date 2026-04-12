@@ -1,10 +1,9 @@
 import logging
-import json
 import pathlib
 import re
 
 from lib.config_loader import load_config
-from lib.logger import setup_logger
+from lib.json_hundler import load_json
 
 
 def natural_sort_key(s):
@@ -40,9 +39,7 @@ def load_and_sort_data(file_path: pathlib.Path, sort_keys: list):
     Raises:
         ValueError: 読み込んだJSONデータがリスト形式でない場合に発生。
     """
-    with open(file_path, 'r', encoding='utf-8') as f:
-        data = json.load(f)
-        
+    data = load_json(file_path)
     if not isinstance(data, list):
         raise ValueError(f"リスト形式ではありません: {file_path}")
 
@@ -83,8 +80,5 @@ def inspect_json_files(target_dir: str):
             # 処理完了ファイル名 + 件数
             count = len(sorted_data)
             logging.info(f"完了: {file_path.name} (処理件数: {count})")
-            
-        except json.JSONDecodeError:
-            logging.error(f"JSON形式不正: {file_path.name}")
         except Exception as e:
             logging.exception(f"予期せぬエラー ({file_path.name}): {e}")

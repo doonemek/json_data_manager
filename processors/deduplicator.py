@@ -1,6 +1,7 @@
-import json
 import logging
 from pathlib import Path
+
+from lib.json_hundler import load_json, save_json
 
 def collect_unique_data(dedup_key: str, input_path: str):
     """指定ディレクトリ内の全JSONを読み込み、指定キーで重複排除したリストを返す
@@ -20,9 +21,8 @@ def collect_unique_data(dedup_key: str, input_path: str):
 
     for file_path in json_files:
         try:
-            with open(file_path, 'r', encoding='utf-8') as f:
-                data = json.load(f)
-            
+            # JSON ファイルを読み込み、リスト形式でなければ Skip する
+            data = load_json(file_path)
             if not isinstance(data, list):
                 continue
 
@@ -80,8 +80,7 @@ def save_json_data(deduplicated_data: list, analysis_results: dict, config: dict
     output_path.mkdir(exist_ok=True)
     output_file = output_path / final_filename
     
-    with open(output_file, 'w', encoding='utf-8') as f:
-        json.dump(deduplicated_data, f, ensure_ascii=False, indent=4)
+    save_json(deduplicated_data, output_file)
         
     logging.info(f"保存完了: {final_filename} に {len(deduplicated_data)} 件を保存しました")
     return final_filename

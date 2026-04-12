@@ -1,6 +1,6 @@
-# lib/config_loader.py の例
-import json
 from pathlib import Path
+
+from lib.json_hundler import load_json
 
 def load_config(config_path: str = "config/settings.json"):
     """Config内容を読み出す
@@ -14,5 +14,4 @@ def load_config(config_path: str = "config/settings.json"):
     base_path = Path(__file__).parent.parent
     full_path = base_path / config_path
     
-    with open(full_path, 'r', encoding='utf-8') as f:
-        return json.load(f)
+    return load_json(full_path)
