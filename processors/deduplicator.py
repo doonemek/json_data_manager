@@ -3,7 +3,7 @@ from pathlib import Path
 
 from lib.json_hundler import load_json, save_json
 
-def collect_unique_data(dedup_key: str, input_path: str):
+def collect_unique_data(dedup_key: str, input_path: str) -> list:
     """指定ディレクトリ内の全JSONを読み込み、指定キーで重複排除したリストを返す
 
     Args:
@@ -39,7 +39,7 @@ def collect_unique_data(dedup_key: str, input_path: str):
     logging.info(f"データ収集完了: {len(deduplicated_data)} 件のユニークなアイテムを抽出しました")
     return deduplicated_data
 
-def analyze_counts(deduplicated_data: list, analysis_keys: list):
+def analyze_counts(deduplicated_data: list[dict], analysis_keys: list[str]) -> dict:
     """抽出されたリストから各キーのユニークな件数をカウントする
 
     Args:
@@ -55,7 +55,7 @@ def analyze_counts(deduplicated_data: list, analysis_keys: list):
         counts[k] = len(unique_values)
     return counts
 
-def save_json_data(deduplicated_data: list, analysis_results: dict, config: dict):
+def save_json_data(deduplicated_data: list, analysis_results: dict, config: dict) -> str:
     """集計結果に基づいてファイル名を生成し、JSONを保存する
 
     集計結果はファイル名に記載される
