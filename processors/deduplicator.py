@@ -160,6 +160,26 @@ def load_and_sort_data(data_list: list, sort_keys: list[str]) -> list:
         ]
     )
 
+def generate_filename(analysis_results: dict, analysis_keys: list[str], output_file_prefix: str) -> str:
+    """集計結果に基づいてファイル名を生成する
+
+    Args:
+        analysis_results (dict): 各キーとカウント値
+        analysis_keys (list): ファイル名の構成順序に使用
+        output_file_prefix (str): ファイル名の末尾
+
+    Returns:
+        str: 作成されたファイル名
+    """
+    change_str = "_".join([f"{k}-{analysis_results[k]}" for k in analysis_keys])
+
+    if "XXXXX" in output_file_prefix:
+        final_filename = output_file_prefix.replace("XXXXX", change_str)
+    else:
+        final_filename = f"{change_str}_{output_file_prefix}"
+    
+    return final_filename
+
 def save_json_data(deduplicated_data: list, analysis_results: dict, config: dict) -> str:
     """集計結果に基づいてファイル名を生成し、JSONを保存する
 
