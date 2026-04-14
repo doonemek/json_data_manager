@@ -4,7 +4,7 @@ from pathlib import Path
 from lib.config_loader import ConfigLoader
 from lib.json_hundler import save_json
 from lib.logger import setup_logger
-from processors.deduplicator import load_master_data, collect_unique_data, filter_new_data, analyze_counts, load_and_sort_data, generate_filename
+from processors.deduplicator import load_master_data, convert_from_list_to_dict, collect_unique_data, filter_new_data, analyze_counts, load_and_sort_data, generate_filename
 from processors.inspector import inspector
 
 setup_logger()
@@ -14,17 +14,19 @@ def main():
     logging.info("Process Start")
     # config 読み込み
     config_loader = ConfigLoader()
-
     dedup_conf = config_loader.get_deduplicator()
 
     # master データの読み込み
     master_data = load_master_data(dedup_conf["master_json_file_dir"])
 
+    # master データ dict変換 (検索を高速化するため)
+    master_dict = convert_from_list_to_dict(master_data, dedup_conf["dedup_key"])
+
     # データ統合・重複除去
     deduplicated_data = collect_unique_data(dedup_conf["dedup_key"],dedup_conf["input_json_file_dir"])
 
-    # master データと 新規データを比較し、完全新規データを抽出
-    new_unique_data = filter_new_data(deduplicated_data, master_data, dedup_conf["dedup_key"])
+    # master データと 新規データを比較し、
+    new_unique_data = filter_new_data(deduplicated_data, master_dict, dedup_conf["dedup_key"])
 
     # master データに新規データを結合
     master_data.extend(new_unique_data)
