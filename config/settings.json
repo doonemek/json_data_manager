@@ -12,7 +12,9 @@
     "pickup_key": "id"
   },
   "splitter": {
-
+    "split_num": 5400,
+    "split_key": "id",
+    "output_json_file_pefix": "split-{file_counts}"
   },
   "inspector": {
 
