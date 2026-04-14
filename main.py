@@ -6,6 +6,7 @@ from lib.json_hundler import save_json
 from lib.logger import setup_logger
 from processors.deduplicator import load_master_data, convert_from_list_to_dict, collect_unique_data, filter_new_data, analyze_counts, load_and_sort_data, generate_filename
 from processors.inspector import inspector
+from processors.splitter import splitter
 
 setup_logger()
 
@@ -15,6 +16,7 @@ def main():
     # config 読み込み
     config_loader = ConfigLoader()
     dedup_conf = config_loader.get_deduplicator()
+    splitter_conf = config_loader.get_splitter()
 
     # master データの読み込み
     master_data = load_master_data(dedup_conf["master_json_file_dir"])
@@ -37,8 +39,23 @@ def main():
         sorted_unique_data = load_and_sort_data(new_unique_data, dedup_conf["analysis_keys"])
         sorted_master_data = load_and_sort_data(master_data, dedup_conf["analysis_keys"])
 
-        # 対象データファイル名生成
-        unique_data_filename = generate_filename(sorted_unique_data, dedup_conf["pickup_key"])
+        # データを特定数毎に分割
+        split_lists = splitter(sorted_unique_data, splitter_conf["split_key"], splitter_conf["split_num"])
+
+        # データ分割保存
+        total_splits = len(split_lists)
+        for i, split_data in enumerate(split_lists, 1):
+
+            # 番目を 0 埋め
+            paddend_i = f"{i:0{len(str(total_splits))}d}"
+
+            # config から prefix 整形
+            prefix = splitter_conf["output_json_file_pefix"].format(file_counts=paddend_i)
+
+            # ファイル保存
+            unique_data_filename = generate_filename(split_data, splitter_conf["split_key"], prefix)
+            save_json(split_data, Path(dedup_conf["output_json_file_dir"]) / unique_data_filename)
+
         master_data_filename = generate_filename(sorted_master_data, dedup_conf["pickup_key"],dedup_conf["output_master_file_prefix"])
 
         # 各種データ保存
