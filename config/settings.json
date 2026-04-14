@@ -6,10 +6,10 @@
     "output_json_file_dir": "${common.data_root}/output"
   },
   "deduplicator": {
-    "output_unique_file_prefix": "XXXXX_result-total.json",
-    "output_master_file_prefix": "master-XXXXX-result-total.json",
+    "output_master_file_prefix": "master",
     "analysis_keys": ["id"],
-    "dedup_key": "id"
+    "dedup_key": "id",
+    "pickup_key": "id"
   },
   "splitter": {
 
