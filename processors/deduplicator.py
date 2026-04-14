@@ -43,6 +43,24 @@ def load_master_data(master_dir: str = "./data/master") -> list[dict]:
     logging.info(f"master データ読み込み完了: {len(master_list)} 件のアイテムを抽出しました")
     return master_list
 
+def convert_from_list_to_dict(list_data: list[dict], index_key: str) -> dict:
+    """辞書型のリストデータを、指定キーで辞書データに変換する
+
+    [前提]
+    index_key が重複している場合、より後に読み込まれたデータに上書きされる
+
+    [データ構成]
+    list[dict] → {<index_key>: <dict_item>]}
+
+    Args:
+        list_data (list[dict]): 辞書型のリストデータ
+        index_key (str): 辞書型で使用するキー名
+
+    Returns:
+        dict: 変換された辞書データ
+    """
+    return {item[index_key]: item for item in list_data}
+
 def collect_unique_data(dedup_key: str, input_path: str) -> list:
     """指定ディレクトリ内の全JSONを読み込み、指定キーで重複排除したリストを返す
 
