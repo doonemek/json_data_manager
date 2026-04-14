@@ -56,11 +56,13 @@ def main():
             unique_data_filename = generate_filename(split_data, splitter_conf["split_key"], prefix)
             save_json(split_data, Path(dedup_conf["output_json_file_dir"]) / unique_data_filename)
 
+        # master データファイル名生成
         master_data_filename = generate_filename(sorted_master_data, dedup_conf["pickup_key"],dedup_conf["output_master_file_prefix"])
 
-        # 各種データ保存
-        save_json(sorted_unique_data, Path(dedup_conf["output_json_file_dir"]) / unique_data_filename)
+        # master データ保存
         save_json(sorted_master_data, Path(dedup_conf["master_json_file_dir"]) / master_data_filename)
+
+        # 古い master をアーカイブ or 削除処理
 
     # 解析
     inspector()
