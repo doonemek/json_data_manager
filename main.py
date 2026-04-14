@@ -37,11 +37,6 @@ def main():
         sorted_unique_data = load_and_sort_data(new_unique_data, dedup_conf["analysis_keys"])
         sorted_master_data = load_and_sort_data(master_data, dedup_conf["analysis_keys"])
 
-        # 特定キーカウントアップ
-        keys = dedup_conf["analysis_keys"]
-        analysis_result_new_unique_data = analyze_counts(new_unique_data, keys)
-        analysis_result_master_data = analyze_counts(master_data, keys)
-
         # 対象データファイル名生成
         unique_data_filename = generate_filename(sorted_unique_data, dedup_conf["pickup_key"])
         master_data_filename = generate_filename(sorted_master_data, dedup_conf["pickup_key"],dedup_conf["output_master_file_prefix"])
@@ -52,6 +47,11 @@ def main():
 
     # 解析
     inspector()
+
+    # # 特定キーカウントアップ
+    # keys = _conf["analysis_keys"]
+    # analysis_result_new_unique_data = analyze_counts(new_unique_data, keys)
+    # analysis_result_master_data = analyze_counts(master_data, keys)
 
     logging.info("Process End")
 
