@@ -43,8 +43,8 @@ def main():
         analysis_result_master_data = analyze_counts(master_data, keys)
 
         # 対象データファイル名生成
-        unique_data_filename = generate_filename(analysis_result_new_unique_data, dedup_conf["analysis_keys"],dedup_conf["output_unique_file_prefix"])
-        master_data_filename = generate_filename(analysis_result_master_data, dedup_conf["analysis_keys"],dedup_conf["output_master_file_prefix"])
+        unique_data_filename = generate_filename(sorted_unique_data, dedup_conf["pickup_key"])
+        master_data_filename = generate_filename(sorted_master_data, dedup_conf["pickup_key"],dedup_conf["output_master_file_prefix"])
 
         # 各種データ保存
         save_json(sorted_unique_data, Path(dedup_conf["output_json_file_dir"]) / unique_data_filename)
