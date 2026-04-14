@@ -176,22 +176,27 @@ def load_and_sort_data(data_list: list, sort_keys: list[str]) -> list:
         ]
     )
 
-def generate_filename(analysis_results: dict, analysis_keys: list[str], output_file_prefix: str) -> str:
-    """集計結果に基づいてファイル名を生成する
+def generate_filename(sorted_data_list: list[dict], pickup_key: str, prefix: str = "") -> str:
+    """ソート済みデータリストの先頭・末尾からファイル名を生成する。
+    
+    prefixが指定されている場合は、ファイル名の先頭に付与する。
 
     Args:
-        analysis_results (dict): 各キーとカウント値
-        analysis_keys (list): ファイル名の構成順序に使用
-        output_file_prefix (str): ファイル名の末尾
+        sorted_data_list (list[dict]): ソート済みデータリスト
+        pickup_key (str): 指定対象キー
+        prefix (str, optional): _description_. Defaults to "".
 
     Returns:
-        str: 作成されたファイル名
+        str: _description_
     """
-    change_str = "_".join([f"{k}-{analysis_results[k]}" for k in analysis_keys])
+    min_id = sorted_data_list[0][pickup_key]
+    max_id = sorted_data_list[-1][pickup_key]
 
-    if "XXXXX" in output_file_prefix:
-        final_filename = output_file_prefix.replace("XXXXX", change_str)
-    else:
-        final_filename = f"{change_str}_{output_file_prefix}"
+    filename = f"{pickup_key}_{min_id}-{max_id}.json"
     
-    return final_filename
+    # prefix がある場合は "{prefix}_" を付与し、ない場合はそのまま出力
+    if prefix:
+        return f"{prefix}_{filename}"
+    else:
+        return filename
+    
