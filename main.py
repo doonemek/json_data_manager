@@ -28,24 +28,25 @@ def main():
     # master データと 新規データを比較し、
     new_unique_data = filter_new_data(deduplicated_data, master_dict, dedup_conf["dedup_key"])
 
-    # master データに新規データを結合
-    master_data.extend(new_unique_data)
+    # 完全新規データが存在する場合に処理実施
+    if new_unique_data:
+        # master データに新規データを結合
+        master_data.extend(new_unique_data)
 
-    # 統合データのソート
-    sorted_unique_data = load_and_sort_data(new_unique_data, dedup_conf["analysis_keys"])
-    sorted_master_data = load_and_sort_data(master_data, dedup_conf["analysis_keys"])
+        # 統合データのソート
+        sorted_unique_data = load_and_sort_data(new_unique_data, dedup_conf["analysis_keys"])
+        sorted_master_data = load_and_sort_data(master_data, dedup_conf["analysis_keys"])
 
-    # 特定キーカウントアップ
-    keys = dedup_conf["analysis_keys"]
-    analysis_result_new_unique_data = analyze_counts(new_unique_data, keys)
-    analysis_result_master_data = analyze_counts(master_data, keys)
+        # 特定キーカウントアップ
+        keys = dedup_conf["analysis_keys"]
+        analysis_result_new_unique_data = analyze_counts(new_unique_data, keys)
+        analysis_result_master_data = analyze_counts(master_data, keys)
 
-    # 対象データファイル名生成
-    unique_data_filename = generate_filename(analysis_result_new_unique_data, dedup_conf["analysis_keys"],dedup_conf["output_unique_file_prefix"])
-    master_data_filename = generate_filename(analysis_result_master_data, dedup_conf["analysis_keys"],dedup_conf["output_master_file_prefix"])
+        # 対象データファイル名生成
+        unique_data_filename = generate_filename(analysis_result_new_unique_data, dedup_conf["analysis_keys"],dedup_conf["output_unique_file_prefix"])
+        master_data_filename = generate_filename(analysis_result_master_data, dedup_conf["analysis_keys"],dedup_conf["output_master_file_prefix"])
 
-    # 新規データが存在する場合、各種データ保存
-    if sorted_unique_data:
+        # 各種データ保存
         save_json(sorted_unique_data, Path(dedup_conf["output_json_file_dir"]) / unique_data_filename)
         save_json(sorted_master_data, Path(dedup_conf["master_json_file_dir"]) / master_data_filename)
 
