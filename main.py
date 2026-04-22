@@ -35,12 +35,9 @@ def main():
 
     # 完全新規データが存在する場合に処理実施
     if new_unique_data:
-        # master データに新規データを結合
-        master_data.extend(new_unique_data)
 
         # 統合データのソート
         sorted_unique_data = load_and_sort_data(new_unique_data, dedup_conf["analysis_keys"])
-        sorted_master_data = load_and_sort_data(master_data, dedup_conf["analysis_keys"])
 
         # データを特定数毎に分割
         split_lists = splitter(sorted_unique_data, splitter_conf["split_key"], splitter_conf["split_num"])
@@ -58,12 +55,6 @@ def main():
             # ファイル保存
             unique_data_filename = generate_filename(split_data, splitter_conf["split_key"], prefix)
             save_json(split_data, Path(dedup_conf["output_json_file_dir"]) / unique_data_filename)
-
-        # master データファイル名生成
-        master_data_filename = generate_filename(sorted_master_data, dedup_conf["pickup_key"],dedup_conf["output_master_file_prefix"])
-
-        # master データ保存
-        save_json(sorted_master_data, Path(dedup_conf["master_json_file_dir"]) / master_data_filename)
 
         # 古い master をアーカイブ or 削除処理
 
