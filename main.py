@@ -1,43 +1,44 @@
 import logging
 from pathlib import Path
 
+from lib.generate_filename import generate_filename
 from lib.config_loader import ConfigLoader
 from lib.json_hundler import save_json
 from lib.logger import setup_logger
-from processors.deduplicator import load_master_data, convert_from_list_to_dict, collect_unique_data, filter_new_data, analyze_counts, load_and_sort_data, generate_filename
+from processors.deduplicator import deduplicator
 from processors.inspector import inspector
-from processors.splitter import splitter
+from processors.sync_master_data import sync_master_data
+from processors.splitter import splitter, split_by_group
+from utils.data_tools import load_and_sort_data
 
 setup_logger()
 
 def main():
-    
+
     logging.info("Process Start")
     # config 読み込み
     config_loader = ConfigLoader()
     dedup_conf = config_loader.get_deduplicator()
+    sync_master_data_conf = config_loader.get_sync_master_data()
     splitter_conf = config_loader.get_splitter()
 
-    # master データの読み込み
-    master_data = load_master_data(dedup_conf["master_json_file_dir"])
+    # 重複排除処理呼び出し
+    deduplicated_data = deduplicator(dedup_conf["input_json_file_dir"], dedup_conf["dedup_key"])
 
-    # master データ dict変換 (検索を高速化するため)
-    master_dict = convert_from_list_to_dict(master_data, dedup_conf["dedup_key"])
+    # 新規データをソート処理
+    sorted_deduplicated_data = load_and_sort_data(deduplicated_data, dedup_conf["analysis_keys"])
 
-    # データ統合・重複除去
-    deduplicated_data = collect_unique_data(dedup_conf["dedup_key"],dedup_conf["input_json_file_dir"])
+    # 新規データのグループ化
+    grouped_new_data = split_by_group(sorted_deduplicated_data, sync_master_data_conf["group_key"], sync_master_data_conf["group_range"])
 
-    # master データと 新規データを比較し、
-    new_unique_data = filter_new_data(deduplicated_data, master_dict, dedup_conf["dedup_key"])
+    # master 操作関数呼び出し(sync_master_data)
+    new_unique_data = sync_master_data(grouped_new_data, sync_master_data_conf)
 
     # 完全新規データが存在する場合に処理実施
     if new_unique_data:
-        # master データに新規データを結合
-        master_data.extend(new_unique_data)
 
         # 統合データのソート
         sorted_unique_data = load_and_sort_data(new_unique_data, dedup_conf["analysis_keys"])
-        sorted_master_data = load_and_sort_data(master_data, dedup_conf["analysis_keys"])
 
         # データを特定数毎に分割
         split_lists = splitter(sorted_unique_data, splitter_conf["split_key"], splitter_conf["split_num"])
@@ -55,12 +56,6 @@ def main():
             # ファイル保存
             unique_data_filename = generate_filename(split_data, splitter_conf["split_key"], prefix)
             save_json(split_data, Path(dedup_conf["output_json_file_dir"]) / unique_data_filename)
-
-        # master データファイル名生成
-        master_data_filename = generate_filename(sorted_master_data, dedup_conf["pickup_key"],dedup_conf["output_master_file_prefix"])
-
-        # master データ保存
-        save_json(sorted_master_data, Path(dedup_conf["master_json_file_dir"]) / master_data_filename)
 
         # 古い master をアーカイブ or 削除処理
 

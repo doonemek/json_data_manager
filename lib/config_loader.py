@@ -22,7 +22,7 @@ class ConfigLoader:
         """
         resolved = self.common.copy()
         resolved.update(section)
-        
+
         # プレースホルダーの置換処理（resolved 全体を対象にする）
         for key, value in resolved.items():
             if isinstance(value, str):
@@ -34,9 +34,12 @@ class ConfigLoader:
 
     def get_deduplicator(self) -> dict:
         return self._resolve_common_section(self._config.get("deduplicator", {}))
-    
+
+    def get_sync_master_data(self) -> dict:
+        return self._resolve_common_section(self._config.get("sync_master_data", {}))
+
     def get_splitter(self) -> dict:
         return self._resolve_common_section(self._config.get("splitter", {}))
-    
+
     def get_inspector(self) -> dict:
         return self._resolve_common_section(self._config.get("inspector", {}))
