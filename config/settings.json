@@ -3,13 +3,17 @@
     "data_root": "./data",
     "input_json_file_dir": "${common.data_root}/input",
     "master_json_file_dir": "${common.data_root}/master",
-    "output_json_file_dir": "${common.data_root}/output"
+    "output_json_file_dir": "${common.data_root}/output",
+    "analysis_keys": ["id"],
+    "dedup_key": "id"
   },
   "deduplicator": {
-    "output_master_file_prefix": "master",
-    "analysis_keys": ["id"],
-    "dedup_key": "id",
     "pickup_key": "id"
+  },
+  "sync_master_data": {
+    "output_master_file_prefix": "master-{group_key}_{min_val}-{max_val}",
+    "group_key": "id",
+    "group_range": 1000000
   },
   "splitter": {
     "split_num": 5400,
