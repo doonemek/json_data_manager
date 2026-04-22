@@ -1,5 +1,4 @@
 import logging
-import os
 from pathlib import Path
 
 from lib.json_hundler import load_json, save_json
@@ -21,7 +20,7 @@ def sync_master_data(grouped_new_data: list[list[dict]], sync_master_data_conf: 
         target_master_filename = sync_master_data_conf["output_master_file_prefix"].format(group_key=sync_master_data_conf["group_key"], min_val=min_val, max_val=max_val) + ".json"
         target_master_file_path = Path(sync_master_data_conf["master_json_file_dir"]) / target_master_filename
 
-        if os.path.exists(target_master_file_path):
+        if target_master_file_path.exists():
             # 既存 master 更新処理
             logging.debug(f"{min_val}-{max_val} の master データに対して重複排除実施")
             master_data = load_json(target_master_file_path)
