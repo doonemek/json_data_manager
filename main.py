@@ -14,7 +14,7 @@ from utils.data_tools import load_and_sort_data
 setup_logger()
 
 def main():
-    
+
     logging.info("Process Start")
     # config 読み込み
     config_loader = ConfigLoader()
