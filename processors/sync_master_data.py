@@ -7,6 +7,18 @@ from processors.deduplicator import deduplicate
 from utils.data_tools import load_and_sort_data
 
 def sync_master_data(grouped_new_data: list[list[dict]], sync_master_data_conf: dict) -> list[dict]:
+    """master データと新規データの比較をし、新規データを追加した master データを保存する
+
+    比較する際にはグループ化された範囲で比較し、高速化する
+    新規データがない場合はmasetr データの操作は行わない
+
+    Args:
+        grouped_new_data (list[list[dict]]): グループ化された検証データリスト
+        sync_master_data_conf (dict): sync_master_data で使用する設定値
+
+    Returns:
+        list[dict]: 完全新規データリスト
+    """
     logging.info(f"{len(grouped_new_data)} 件のグループに対して master データ比較処理開始")
 
     unique_new_data = []

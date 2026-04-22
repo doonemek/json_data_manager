@@ -1,16 +1,29 @@
 from itertools import groupby
 
 def get_range_from_value(target_value: int, group_range: int) -> tuple[int, int]:
+    """渡された値の属する範囲の上下限を取得する
 
+    Args:
+        target_value (int): 範囲を特定したい値
+        group_range (int): 範囲区切り数
+
+    Returns:
+        tuple[int, int]: 範囲の上下限値
+    """
     min_val = ((target_value - 1) // group_range) * group_range + 1
     max_val = min_val + group_range - 1
     return min_val, max_val
 
 
 def split_by_group(data_list, group_key, group_range):
-    """
-    data_list を group_key の値に基づいて範囲ごとにリスト化する。
+    """data_list を group_key の値に基づいて範囲ごとにリスト化する。
+
     戻り値: [[{...}, {...}], [{...}, {...}], ...]
+
+    Args:
+        data_list (list[dict]): グループ分け対象データリスト
+        group_key (string): グループ分けしたいキー名
+        group_range (int): グループ区切り数
     """
 
     def get_group_key(data):
