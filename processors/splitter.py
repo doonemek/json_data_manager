@@ -15,15 +15,18 @@ def get_range_from_value(target_value: int, group_range: int) -> tuple[int, int]
     return min_val, max_val
 
 
-def split_by_group(data_list, group_key, group_range):
+def split_by_group(data_list: list[dict], group_key: str, group_range: int) -> list[list[dict]]:
     """data_list を group_key の値に基づいて範囲ごとにリスト化する。
 
     戻り値: [[{...}, {...}], [{...}, {...}], ...]
 
     Args:
         data_list (list[dict]): グループ分け対象データリスト
-        group_key (string): グループ分けしたいキー名
+        group_key (str): グループ分けしたいキー名
         group_range (int): グループ区切り数
+
+    Returns:
+        list[list[dict]]: グループ化されたデータリスト
     """
 
     def get_group_key(data):
